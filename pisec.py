@@ -1,12 +1,9 @@
+import Flask.alarmservice
 from gpiozero import MotionSensor
 import subprocess
 import datetime
 import RPi.GPIO as GPIO
 import time
-
-import sys
-sys.path.append('../Flask/alarmservice.py')
-import alarmservice
 
 # Definiciones
 red_PIN = 16
