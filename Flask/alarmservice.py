@@ -111,9 +111,9 @@ def take_picture(mode):
         "sudo fswebcam -r 640x480 -S 20 -d /dev/video0 -q " + MAIN_PATH + "/Alarm/pictures/" + mode + "/%m-%d-%y-%H%M%S.jpg",
         shell=True)
     grab_cam.wait()
-    GPIO.output(green_PIN, True)
+    GPIO.output(red_PIN, True)
     time.sleep(0.3)
-    GPIO.output(green_PIN, False)
+    GPIO.output(red_PIN, False)
     return 'Foto tomada!'
 
 
