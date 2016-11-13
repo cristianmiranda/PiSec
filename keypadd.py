@@ -4,15 +4,19 @@ import RPi.GPIO as GPIO
 
 import Flask.alarmservice as AlarmService
 
-GPIO.setmode(GPIO.BOARD)
+#GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 
 MATRIX = [[1, 2, 3, 'A'],
           [4, 5, 6, 'B'],
           [7, 8, 9, 'C'],
           ["*", 0, "#", 'D']]
 
-ROW = [33, 31, 29, 32]
-COL = [12, 16, 18, 22]
+#ROW = [33, 31, 29, 32]
+#COL = [12, 16, 18, 22]
+
+ROW = [13, 6, 5, 12]
+COL = [18, 23, 24, 25]
 
 for j in range(4):
     GPIO.setup(COL[j], GPIO.OUT)
