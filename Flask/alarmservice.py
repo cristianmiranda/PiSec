@@ -96,7 +96,7 @@ def take_picture(mode):
     time.sleep(0.3)
     GPIO.output(red_PIN, False)
     GPIO.output(buzz_PIN, False)
-    return get_manual_picture()
+    return 'Foto tomada!'
 
 
 '''
