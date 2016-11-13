@@ -9,8 +9,8 @@ import RPi.GPIO as GPIO
 red_PIN = 16
 buzz_PIN = 26
 
-#MAIN_PATH = "/home/pi/PiSec"
-MAIN_PATH = "/Users/cristianmiranda/Documents/Work/Workspace_UNLaM/PiSec"
+MAIN_PATH = "/home/pi/PiSec"
+#MAIN_PATH = "/Users/cristianmiranda/Documents/Work/Workspace_UNLaM/PiSec"
 PASSWORD_PATH = MAIN_PATH + "/Flask/password"
 STATUS_PATH = MAIN_PATH + "/Flask/status"
 
