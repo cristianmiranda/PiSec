@@ -57,7 +57,7 @@ def take_picture():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(buzz_PIN, GPIO.OUT)
     GPIO.setup(red_PIN, GPIO.OUT)
-    grab_cam = subprocess.Popen("sudo fswebcam -r 640x480 -S 10 -d /dev/video0 -q " + MAIN_PATH + "/Alarm/pictures/manual/%m-%d-%y-%H%M%S.jpg", shell=True)
+    grab_cam = subprocess.Popen("sudo fswebcam -r 640x480 -S 20 -d /dev/video0 -q " + MAIN_PATH + "/Alarm/pictures/manual/%m-%d-%y-%H%M%S.jpg", shell=True)
     grab_cam.wait()
     GPIO.output(red_PIN, True)
     GPIO.output(buzz_PIN, True)
@@ -68,8 +68,15 @@ def take_picture():
 
 @app.route('/alarm/picture/manual')
 def get_manual_picture():
-    picture = os.popen("ls -Art " + MAIN_PATH + "/Alarm/pictures/manual | tail -n 1")
-    filename = MAIN_PATH + '/Alarm/pictures/manual/' + picture.read().rstrip('\n')
+    return get_picture('manual')
+
+@app.route('/alarm/picture/auto')
+def get_auto_picture():
+    return get_picture('auto')
+
+def get_picture(mode):
+    picture = os.popen("ls -Art " + MAIN_PATH + "/Alarm/pictures/" + mode + " | tail -n 1")
+    filename = MAIN_PATH + '/Alarm/pictures/' + mode + '/' + picture.read().rstrip('\n')
     return send_file(filename, mimetype='image/gif')
 
 if __name__ == '__main__':
