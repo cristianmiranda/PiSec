@@ -83,8 +83,11 @@ def alarm_on_off(mode, number):
             else:
                 fo.write('0')
                 result = 'Alarma desactivada'
+                GPIO.output(buzz_PIN, True)
                 GPIO.output(green_PIN, True)
                 GPIO.output(red_PIN, False)
+                time.sleep(0.5)
+                GPIO.output(buzz_PIN, False)
     return result
 
 '''
