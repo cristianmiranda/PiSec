@@ -3,6 +3,9 @@ import subprocess
 import datetime
 import RPi.GPIO as GPIO
 import time
+
+import sys
+sys.path.append('../Flask/alarmservice.py')
 import alarmservice
 
 # Definiciones
