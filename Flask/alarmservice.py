@@ -3,8 +3,8 @@ from flask import Flask, send_file
 import time
 import os
 import subprocess
-#import RPi.GPIO as GPIO
-import time as GPIO
+import RPi.GPIO as GPIO
+#import time as GPIO
 
 red_PIN = 16
 buzz_PIN = 26
