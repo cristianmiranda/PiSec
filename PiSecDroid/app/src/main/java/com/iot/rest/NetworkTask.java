@@ -7,9 +7,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by gmartin on 28/05/2016.
- */
 public class NetworkTask extends AsyncTask<String, Void, String> {
 
     private Callback callback;

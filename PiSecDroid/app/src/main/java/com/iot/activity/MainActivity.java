@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText code;
     private Button button;
 
-    private Timer timer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

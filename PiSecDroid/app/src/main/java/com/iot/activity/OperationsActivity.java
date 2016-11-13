@@ -199,9 +199,7 @@ public class OperationsActivity extends AppCompatActivity implements SensorEvent
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            detectShake(event);
-        } else if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
             if (event.values[0] == 0) {
                 statusSwitch.setChecked(false);
             }
@@ -210,14 +208,5 @@ public class OperationsActivity extends AppCompatActivity implements SensorEvent
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-    }
-
-    /**
-     * Detect a shake based on the ACCELEROMETER sensor
-     *
-     * @param event
-     */
-    private void detectShake(SensorEvent event) {
-
     }
 }
