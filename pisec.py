@@ -24,9 +24,39 @@ def check_motion():
         AlarmService.take_picture_auto()
         already_took = True
         print("Done!")
+        beep()
+        beep()
+        beep()
     else:
         if not pir.motion_detected:
             already_took = False
+
+
+def beep():
+    GPIO.output(buzz_PIN, True)
+    GPIO.output(red_PIN, True)
+    time.sleep(0.3)
+    GPIO.output(buzz_PIN, False)
+    GPIO.output(red_PIN, False)
+    time.sleep(0.3)
+    GPIO.output(buzz_PIN, True)
+    GPIO.output(red_PIN, True)
+    time.sleep(0.3)
+    GPIO.output(buzz_PIN, False)
+    GPIO.output(red_PIN, False)
+    time.sleep(0.3)
+    GPIO.output(buzz_PIN, True)
+    GPIO.output(red_PIN, True)
+    time.sleep(0.3)
+    GPIO.output(buzz_PIN, False)
+    GPIO.output(red_PIN, False)
+    time.sleep(0.3)
+    GPIO.output(buzz_PIN, True)
+    GPIO.output(red_PIN, True)
+    time.sleep(0.3)
+    GPIO.output(buzz_PIN, False)
+    GPIO.output(red_PIN, False)
+    time.sleep(1.5)
 
 
 if __name__ == '__main__':
