@@ -69,7 +69,7 @@ def take_picture():
 @app.route('/alarm/picture/manual')
 def get_manual_picture():
     picture = os.popen("ls -Art " + MAIN_PATH + "/Alarm/pictures/manual | tail -n 1")
-    filename = MAIN_PATH + '/Alarm/pictures/' + picture.read().rstrip('\n')
+    filename = MAIN_PATH + '/Alarm/pictures/manual/' + picture.read().rstrip('\n')
     return send_file(filename, mimetype='image/gif')
 
 if __name__ == '__main__':
