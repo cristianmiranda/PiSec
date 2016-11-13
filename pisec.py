@@ -1,4 +1,4 @@
-import Flask.alarmservice
+import Flask.alarmservice as AlarmService
 from gpiozero import MotionSensor
 import subprocess
 import datetime
@@ -35,7 +35,7 @@ try:
     while True:
         if pir.motion_detected:
             time.sleep(2)
-            alarmservice.take_picture_auto()
+            AlarmService.take_picture_auto()
             '''
             grab_cam = subprocess.Popen(
                 "sudo fswebcam -r 640x480 -S 10 -d /dev/video0 -q /home/pi/Desktop/Alarm/pictures/auto/%m-%d-%y-%H%M%S.jpg",
