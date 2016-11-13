@@ -1,14 +1,16 @@
-from flask import Flask, render_template, request
+from flask import Flask, send_file
 
 import time
+import os
 import subprocess
 import RPi.GPIO as GPIO
+#import time as GPIO
 
 red_PIN = 16
 buzz_PIN = 26
 
-MAIN_PATH = "/home/pi/PiSec"
-#MAIN_PATH = "/Users/cristianmiranda/Documents/Work/Workspace_UNLaM/PiSec"
+#MAIN_PATH = "/home/pi/PiSec"
+MAIN_PATH = "/Users/cristianmiranda/Documents/Work/Workspace_UNLaM/PiSec"
 PASSWORD_PATH = MAIN_PATH + "/Flask/password"
 STATUS_PATH = MAIN_PATH + "/Flask/status"
 
@@ -55,13 +57,20 @@ def take_picture():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(buzz_PIN, GPIO.OUT)
     GPIO.setup(red_PIN, GPIO.OUT)
-    grab_cam = subprocess.Popen("sudo fswebcam -r 640x480 -S 10 -d /dev/video0 -q " + MAIN_PATH + "/Alarm/pictures/%m-%d-%y-%H%M%S.jpg", shell=True)
+    grab_cam = subprocess.Popen("sudo fswebcam -r 640x480 -S 10 -d /dev/video0 -q " + MAIN_PATH + "/Alarm/pictures/manual/%m-%d-%y-%H%M%S.jpg", shell=True)
     grab_cam.wait()
     GPIO.output(red_PIN, True)
     GPIO.output(buzz_PIN, True)
     time.sleep(0.3)
     GPIO.output(red_PIN, False)
     GPIO.output(buzz_PIN, False)
+    return get_manual_picture()
+
+@app.route('/alarm/picture/manual')
+def get_manual_picture():
+    picture = os.popen("ls -Art " + MAIN_PATH + "/Alarm/pictures/manual | tail -n 1")
+    filename = MAIN_PATH + '/Alarm/pictures/' + picture.read().rstrip('\n')
+    return send_file(filename, mimetype='image/gif')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
