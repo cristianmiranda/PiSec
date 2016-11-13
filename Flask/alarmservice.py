@@ -137,7 +137,8 @@ def get_auto_picture():
 def get_picture(mode):
     picture = os.popen("ls -Art " + MAIN_PATH + "/Alarm/pictures/" + mode + " | tail -n 1")
     filename = MAIN_PATH + '/Alarm/pictures/' + mode + '/' + picture.read().rstrip('\n')
-    return base64.b64encode(send_file(filename, mimetype='image/gif'))
+    with open(filename, "rb") as image_file:
+        return base64.b64encode(image_file.read())
 
 
 if __name__ == '__main__':
