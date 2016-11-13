@@ -5,6 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -15,23 +19,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 
+import com.iot.common.ShakeDetector;
 import com.iot.gmartin.alarmaiot_soa.R;
-import com.google.gson.Gson;
 import com.iot.common.UrlBuilder;
 import com.iot.rest.Callback;
 import com.iot.rest.NetworkTask;
-import com.iot.dto.TemperatureLimits;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
  * Pantalla de operaciones
  */
-public class OperationsActivity extends AppCompatActivity {
+public class OperationsActivity extends AppCompatActivity implements SensorEventListener {
     private Switch statusSwitch;
     private Button takePictureButton;
     private Button seeLastPictureButton;
@@ -41,6 +41,10 @@ public class OperationsActivity extends AppCompatActivity {
 
     private Timer timer;
     private String password;
+    private Sensor mSensorProx;
+    private Sensor mSensorAcc;
+    private SensorManager mSensorManager;
+    private ShakeDetector mShakeDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,11 @@ public class OperationsActivity extends AppCompatActivity {
         this.codeText = (EditText) findViewById(R.id.codeText);
         this.sendCodeButton = (Button) findViewById(R.id.sendCodeButton);
         this.picture = (ImageView) findViewById(R.id.picture);
+        this.mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        this.mSensorProx = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        this.mSensorAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+        initShakeDetector();
         initButtons();
         initTimer();
     }
@@ -128,14 +136,18 @@ public class OperationsActivity extends AppCompatActivity {
         takePictureButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                new NetworkTask(new Callback() {
-                    @Override
-                    public void run(String result) {
-                        getLastPicture("manual");
-                    }
-                }).execute(UrlBuilder.build("picture/manual/take"));
+                takeManualPicture();
             }
         });
+    }
+
+    private void takeManualPicture() {
+        new NetworkTask(new Callback() {
+            @Override
+            public void run(String result) {
+                getLastPicture("manual");
+            }
+        }).execute(UrlBuilder.build("picture/manual/take"));
     }
 
     private void getLastPicture(String mode) {
@@ -157,5 +169,55 @@ public class OperationsActivity extends AppCompatActivity {
                 new NetworkTask().execute(UrlBuilder.build(status + "/" + password));
             }
         });
+    }
+
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, mSensorProx, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mShakeDetector, mSensorAcc,	SensorManager.SENSOR_DELAY_UI);
+    }
+
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+        mSensorManager.unregisterListener(mShakeDetector);
+    }
+
+    private void initShakeDetector() {
+        this.mShakeDetector = new ShakeDetector();
+        this.mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+            @Override
+            public void onShake(int count) {
+                takeManualPicture();
+            }
+        });
+    }
+
+    /**
+     * En caso de ser detectado un movimiento en el sensor de proximidad, se apaga la alarma.
+     * @param event
+     */
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            detectShake(event);
+        } else if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+            if (event.values[0] == 0) {
+                statusSwitch.setChecked(false);
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    /**
+     * Detect a shake based on the ACCELEROMETER sensor
+     *
+     * @param event
+     */
+    private void detectShake(SensorEvent event) {
+
     }
 }
