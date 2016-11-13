@@ -18,6 +18,11 @@ STATUS_PATH = MAIN_PATH + "/Flask/status"
 
 app = Flask(__name__)
 
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(buzz_PIN, GPIO.OUT)
+GPIO.setup(red_PIN, GPIO.OUT)
+GPIO.setup(green_PIN, GPIO.OUT)
+
 '''
     Password management
 '''
@@ -132,8 +137,4 @@ def get_picture(mode):
 
 
 if __name__ == '__main__':
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(buzz_PIN, GPIO.OUT)
-    GPIO.setup(red_PIN, GPIO.OUT)
-    GPIO.setup(green_PIN, GPIO.OUT)
     app.run(debug=True, host='0.0.0.0')
