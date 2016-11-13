@@ -34,22 +34,12 @@ status = 0  # El sistema inicia desactivado
 try:
     while True:
         if pir.motion_detected:
-            time.sleep(2)
-            AlarmService.take_picture_auto()
-            '''
-            grab_cam = subprocess.Popen(
-                "sudo fswebcam -r 640x480 -S 10 -d /dev/video0 -q /home/pi/Desktop/Alarm/pictures/auto/%m-%d-%y-%H%M%S.jpg",
-                shell=True)
-            grab_cam.wait()
-            GPIO.output(red_PIN, True)
-            GPIO.output(buzz_PIN, True)
-            n = n + 1
             print("Motion detected!")
-            print (n)
             time.sleep(0.3)
-            GPIO.output(red_PIN, False)
-            GPIO.output(buzz_PIN, False)
-            '''
+            print("Taking picture!")
+            AlarmService.take_picture_auto()
+            print("Done!")
+
 
 except KeyboardInterrupt:
     print ("Quit")
