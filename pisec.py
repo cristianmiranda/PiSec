@@ -14,19 +14,13 @@ pir = MotionSensor(17)
 buzz_PIN = 26
 green_PIN = 27
 
-already_took = False
 
 def check_motion():
-    global already_took
-    if pir.motion_detected and not already_took:
+    if pir.motion_detected:
         print("Motion detected!")
         print("Taking picture!")
         AlarmService.take_picture_auto()
-        already_took = True
         print("Done!")
-    else:
-        if not pir.motion_detected:
-            already_took = False
 
 
 if __name__ == '__main__':
