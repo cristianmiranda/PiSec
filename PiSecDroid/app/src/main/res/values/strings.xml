@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">PiSec</string>
+    <string name="btn_status">ESTADO</string>
+    <string name="btn_config">CONFIGURACION</string>
+    <string name="switch_on_off">Alarma encendida</string>
+
+    <string name="title_activity_config">Configuración</string>
+    <string name="config_lb_min_range">Mínimo</string>
+    <string name="config_lb_max_range">Máximo</string>
+    <string name="btn_upd_range">Actualizar Rangos</string>
+
+    <string name="title_activity_status">Estado</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">NNº C</string>
+</resources>
