@@ -2,6 +2,7 @@ from flask import Flask, send_file
 
 import time
 import os
+import base64
 import subprocess
 import RPi.GPIO as GPIO
 
@@ -136,7 +137,7 @@ def get_auto_picture():
 def get_picture(mode):
     picture = os.popen("ls -Art " + MAIN_PATH + "/Alarm/pictures/" + mode + " | tail -n 1")
     filename = MAIN_PATH + '/Alarm/pictures/' + mode + '/' + picture.read().rstrip('\n')
-    return send_file(filename, mimetype='image/gif')
+    return base64.b64encode(send_file(filename, mimetype='image/gif'))
 
 
 if __name__ == '__main__':
